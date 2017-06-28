@@ -17721,7 +17721,7 @@ var Screen = function () {
             var $screenId = (0, _jquery2.default)('.controller-link');
             var url = top.JSCONST.gameCenterControllerUrl;
             $screenId.html('<a href="' + url + '" target="_blank">' + url + '</a>');
-            new QRCode((0, _jquery2.default)('.qrcode')[0], url);
+            new _qrcodejs2.default.QRCode((0, _jquery2.default)('.qrcode')[0], url);
         }
     }]);
 

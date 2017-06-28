@@ -236,7 +236,7 @@ export default class Screen {
         let $screenId = $('.controller-link');
         let url = top.JSCONST.gameCenterControllerUrl;
         $screenId.html(`<a href="${url}" target="_blank">${url}</a>`);
-        new QRCode($('.qrcode')[0], url);
+        new qrcodejs.QRCode($('.qrcode')[0], url);
     }
 
 };
