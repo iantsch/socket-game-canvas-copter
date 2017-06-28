@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import QRCode from 'qrcodejs';
+import qrcodejs from 'qrcodejs';
 
 import Game, {raf} from '../game/Game';
 
