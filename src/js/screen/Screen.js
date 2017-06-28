@@ -14,7 +14,12 @@ export default class Screen {
         this._resizing = {
             start : Date.now(),
             duration : 250
-        }
+        };
+        this._resizeCanvas = this._resizeCanvas.bind(this);
+        this._onRoundCallback = this._onRoundCallback.bind(this);
+        this._onCollisionCallback = this._onCollisionCallback.bind(this);
+        this._onTick = this._onTick.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
     }
 
     run() {
@@ -31,9 +36,9 @@ export default class Screen {
             }
         });
 
-        this._game.setRoundCallback( () => this._onRoundCallback );
-        this._game.setCollisionCallback( () => this._onCollisionCallback );
-        this._game.setTickCallback( () => this._onTick );
+        this._game.setRoundCallback( this._onRoundCallback );
+        this._game.setCollisionCallback( this._onCollisionCallback );
+        this._game.setTickCallback( this._onTick );
 
         $(window).on('resize', this._onWindowResize);
         window.jsCopter = this._game;
@@ -149,8 +154,6 @@ export default class Screen {
             $(`[data-playerId="${playerId}"] > span.playerColor`).css('backgroundColor', color);
         });
 
-
-
     };
 
     _resizeCanvas() {
@@ -187,7 +190,7 @@ export default class Screen {
         }
         for (let controllerId of this._ranking) {
             if (this._players.hasOwnProperty(controllerId)) {
-                const player = players[controllerId];
+                const player = this._players[controllerId];
                 const $li = $(`[data-playerId="${player.id}"]`);
                 if (!this._game.playerManager.players[player.id].isAlive) {
                     $li.addClass('scores__item--is-dead');
@@ -205,7 +208,7 @@ export default class Screen {
     }
 
     _onCollisionCallback() {
-        for (let controllerId of Object.keys(players)) {
+        for (let controllerId of Object.keys(this._players)) {
             const player = this._players[controllerId];
             if (this._game.playerManager.players[player.id].isAlive) {
                 ++player.score;

@@ -16931,8 +16931,8 @@ var Controller = function () {
             move: (0, _jquery2.default)('.move'),
             exit: (0, _jquery2.default)('.exit'),
             refreshColor: (0, _jquery2.default)('.refreshColor'),
-            totalDistance: (0, _jquery2.default)('.distance--total'),
-            maxDistance: (0, _jquery2.default)('.distance--max')
+            totalDistance: (0, _jquery2.default)('.distance__total'),
+            maxDistance: (0, _jquery2.default)('.distance__max')
         };
         if (typeof this._player.username !== 'string') {
             this._player.username = 'Guest';
@@ -16952,7 +16952,10 @@ var Controller = function () {
                     borderColor: _this._player.color,
                     color: _this._player.color
                 });
-                (0, _jquery2.default)('.exit, .refresh-color').css({
+                _this.$.exit.css({
+                    background: _this._player.color
+                });
+                _this.$.refreshColor.css({
                     background: _this._player.color
                 });
                 _this._player.id = data.playerId;

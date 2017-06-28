@@ -17480,6 +17480,10 @@ var Screen = function () {
             start: Date.now(),
             duration: 250
         };
+        this._resizeCanvas = this._resizeCanvas.bind(this);
+        this._onRoundCallback = this._onRoundCallback.bind(this);
+        this._onCollisionCallback = this._onCollisionCallback.bind(this);
+        this._onTick = this._onTick.bind(this);
     }
 
     _createClass(Screen, [{
@@ -17500,17 +17504,13 @@ var Screen = function () {
                 }
             });
 
-            this._game.setRoundCallback(function () {
-                return _this._onRoundCallback;
-            });
-            this._game.setCollisionCallback(function () {
-                return _this._onCollisionCallback;
-            });
-            this._game.setTickCallback(function () {
-                return _this._onTick;
-            });
+            this._game.setRoundCallback(this._onRoundCallback);
+            this._game.setCollisionCallback(this._onCollisionCallback);
+            this._game.setTickCallback(this._onTick);
 
-            (0, _jquery2.default)(window).on('resize', this._onWindowResize);
+            (0, _jquery2.default)(window).on('resize', function () {
+                return _this._onWindowResize;
+            });
             window.jsCopter = this._game;
 
             (0, _jquery2.default)('.toggle-fullscreen').on('click', function (event) {
@@ -17606,7 +17606,7 @@ var Screen = function () {
             this._game.createBG();
             this._game.createInitialWalls();
             if (Date.now() - this._resizing.start < this._resizing.duration) {
-                (0, _Game.raf)(this._resizeCanvas);
+                (0, _Game.raf)(this._resizeCanvas.bind(this));
             } else if (this._game.playerManager.numberOfPlayers() > 0) {
                 this._game.callback.round();
                 this._game.startGame();
@@ -17637,7 +17637,7 @@ var Screen = function () {
                     var controllerId = _step.value;
 
                     if (this._players.hasOwnProperty(controllerId)) {
-                        var player = players[controllerId];
+                        var player = this._players[controllerId];
                         var $li = (0, _jquery2.default)('[data-playerId="' + player.id + '"]');
                         if (!this._game.playerManager.players[player.id].isAlive) {
                             $li.addClass('scores__item--is-dead');
@@ -17676,7 +17676,7 @@ var Screen = function () {
             var _iteratorError2 = undefined;
 
             try {
-                for (var _iterator2 = Object.keys(players)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                for (var _iterator2 = Object.keys(this._players)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                     var controllerId = _step2.value;
 
                     var player = this._players[controllerId];
