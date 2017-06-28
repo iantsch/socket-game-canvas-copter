@@ -1,0 +1,7 @@
+{
+    "abbreviation": "COP",
+    "controller": "controller.html",
+    "name": "Canvas Copter",
+    "screen": "screen.html",
+    "icon": "game-icon.png"
+}

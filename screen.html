@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>CanvasCopter Screen</title>
+        <link rel="stylesheet" href="dist/css/screen.css" type="text/css" media="all">
+    </head>
+    <body class="screen">
+    <main class="screen__wrapper screen__wrapper--sidebar">
+        <div class="screen__game" id="game-container">
+            <h2 class="waiting">Waiting for player ...</h2>
+        </div>
+        <aside class="screen__sidebar">
+            <div class="scores">
+                <h3 class="scores__title">Connected Players</h3>
+                <ul class="scores__list">
+                </ul>
+            </div>
+            <div class="qrcode"></div>
+            <nav class="screen__nav">
+                <div class="controller-link"></div>
+                <a href="#" class="toggle-fullscreen" title="Toggle Fullscreen">
+                    <svg class="toggle-fullscreen__svg svg" viewBox="0 0 22 22">
+                        <path d="M4,18h14V4H4V18z M6,6h10v10H6V6z" />
+                        <path d="M2,16 0,16 0,22 6,22 6,20 2,20z" />
+                        <path d="M2,2 6,2 6,0 0,0 0,6 2,6z" />
+                        <path d="M20,20 16,20 16,22 22,22 22,16 20,16z" />
+                        <path d="M16,0 16,2 20,2 20,6 22,6 22,0z" />
+                    </svg>
+                </a>
+                <a href="#" class="toggle-sidebar" title="Toggle Sidebar">
+                    <svg class="toggle-sidebar__svg svg" viewBox="52.405 123.305 490.472 595.279">
+                        <path d="M406.738,382.471c48.075-15.814,136.139-79.187,136.139-163.505c0-41.272-35.282-74.742-77.019-71.396
+                                c0.1-2.823,0.25-5.622,0.292-8.452c0-4.186-1.582-8.186-4.558-11.161c-2.976-3.071-6.976-4.651-11.161-4.651H144.885
+                                c-4.186,0-8.186,1.58-11.161,4.651c-2.976,2.976-4.558,6.976-4.558,11.161c0.041,2.791,0.11,5.599,0.195,8.453
+                                c-41.724-3.292-76.957,30.142-76.957,71.396c0,84.338,88.106,147.721,136.174,163.515c18.061,29.867,38.676,51.468,61.225,64.135
+                                c-1.768,6.696-2.045,12.742-2.045,12.835c0,0.279,1.022,16.371,8.37,24.371v23.159c-21.044,5.8-35.086,15.618-39.939,27.532h-27.96
+                                c-5.208,0-9.301,4.185-9.301,9.301v131.055h-6.791c-5.208,0-9.301,4.185-9.301,9.301v25.113c0,5.117,4.093,9.301,9.301,9.301
+                                h251.041c5.116,0,9.301-4.184,9.301-9.301V684.17c0-5.116-4.185-9.301-9.301-9.301h-6.789V543.814c0-5.117-4.186-9.301-9.301-9.301
+                                h-28.043c-4.829-11.914-18.812-21.732-39.856-27.532v-22.975c7.255-7.906,8.37-24.276,8.37-24.556c0-0.093-0.371-6.138-2.045-12.742
+                                C368.065,433.95,388.597,412.341,406.738,382.471z M71.006,218.966c0-29.293,23.835-53.127,53.128-53.127
+                                c1.99,0,4.025,0.14,6.086,0.393c0.177,3.208,0.315,6.417,0.525,9.624c4.504,68.036,19.678,130.295,43.562,180.232
+                                C132.203,334.461,71.006,283.827,71.006,218.966z M464.568,175.855c0.207-3.147,0.404-6.338,0.578-9.63
+                                c2.031-0.247,4.039-0.388,6-0.388c29.294,0,53.128,23.834,53.128,53.128c0,64.838-61.153,115.46-103.26,137.102
+                                C444.892,306.135,459.973,243.882,464.568,175.855z" />
+                    </svg>
+                </a>
+            </nav>
+        </aside>
+    </main>
+        <script>
+            TheSpielplatz = {
+                type : 'screen'
+            }
+        </script>
+        <script src="dist/js/screen.bundle.js"></script>
+    </body>
+</html>
