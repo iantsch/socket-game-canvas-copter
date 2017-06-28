@@ -37,26 +37,26 @@ export default class Controller {
             this._emitDirection();
         });
 
-        $(top.document).on('keydown', (event) => {
+        $(top.document).on('keydown', event => {
             if (event.keyCode === 32) {
                 this._emitUp();
             }
         });
 
-        $(top.document).on('keyup', (event) => {
+        $(top.document).on('keyup', event => {
             if (event.keyCode === 32) {
                 this._emitRelease();
             }
         });
 
 
-        this.$.move.on('mousedown touchstart', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+        this.$.move.on('mousedown touchstart', event => {
+            event.preventDefault();
+            event.stopPropagation();
             this._emitUp();
-        }).on('mouseup touchend', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+        }).on('mouseup touchend', event => {
+            event.preventDefault();
+            event.stopPropagation();
             this._emitRelease();
         });
 

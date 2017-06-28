@@ -16971,14 +16971,14 @@ var Controller = function () {
                 }
             });
 
-            this.$.move.on('mousedown touchstart', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this._emitUp();
-            }).on('mouseup touchend', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this._emitRelease();
+            this.$.move.on('mousedown touchstart', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                _this._emitUp();
+            }).on('mouseup touchend', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                _this._emitRelease();
             });
 
             this.$.exit.on('mousedown touchstart', function (event) {
