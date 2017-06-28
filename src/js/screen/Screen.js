@@ -31,9 +31,9 @@ export default class Screen {
             }
         });
 
-        this._game.setRoundCallback(this._onRoundCallback);
-        this._game.setCollisionCallback(this._onCollisionCallback);
-        this._game.setTickCallback(this._onTick);
+        this._game.setRoundCallback( () => this._onRoundCallback );
+        this._game.setCollisionCallback( () => this._onCollisionCallback );
+        this._game.setTickCallback( () => this._onTick );
 
         $(window).on('resize', this._onWindowResize);
         window.jsCopter = this._game;

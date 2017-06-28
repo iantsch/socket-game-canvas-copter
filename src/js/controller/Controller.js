@@ -13,8 +13,8 @@ export default class Controller {
             move : $('.move'),
             exit : $('.exit'),
             refreshColor : $('.refreshColor'),
-            totalDistance : $('.distance--total'),
-            maxDistance : $('.distance--max'),
+            totalDistance : $('.distance__total'),
+            maxDistance : $('.distance__max'),
         };
         if (typeof this._player.username !== 'string') {
             this._player.username = 'Guest';
@@ -30,7 +30,10 @@ export default class Controller {
                 borderColor : this._player.color,
                 color : this._player.color
             });
-            $('.exit, .refresh-color').css({
+            this.$.exit.css({
+                background : this._player.color
+            });
+            this.$.refreshColor.css({
                 background : this._player.color
             });
             this._player.id = data.playerId;

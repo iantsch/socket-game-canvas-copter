@@ -338,7 +338,7 @@ export default class Game {
         for (let obstacle of this.gameData.obstacles.current) {
             draw.beginPath();
             draw.fillStyle = this.options.colors.fill;
-            this.roundedRect(draw, obstacle.x-=this.gameData.delta.x, obstacle.y, this.options.obstacles.width, this.options.obstacles.height, 10);
+            roundedRect(draw, obstacle.x-=this.gameData.delta.x, obstacle.y, this.options.obstacles.width, this.options.obstacles.height, 10);
             draw.fill();
             if (obstacle.x <= - (this.options.canvas.width)) {
                 this.gameData.obstacles.current.splice(i, 1);

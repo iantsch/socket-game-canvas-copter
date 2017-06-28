@@ -17112,7 +17112,7 @@ var Game = function () {
 
                     draw.beginPath();
                     draw.fillStyle = this.options.colors.fill;
-                    this.roundedRect(draw, obstacle.x -= this.gameData.delta.x, obstacle.y, this.options.obstacles.width, this.options.obstacles.height, 10);
+                    roundedRect(draw, obstacle.x -= this.gameData.delta.x, obstacle.y, this.options.obstacles.width, this.options.obstacles.height, 10);
                     draw.fill();
                     if (obstacle.x <= -this.options.canvas.width) {
                         this.gameData.obstacles.current.splice(i, 1);
@@ -17500,9 +17500,15 @@ var Screen = function () {
                 }
             });
 
-            this._game.setRoundCallback(this._onRoundCallback);
-            this._game.setCollisionCallback(this._onCollisionCallback);
-            this._game.setTickCallback(this._onTick);
+            this._game.setRoundCallback(function () {
+                return _this._onRoundCallback;
+            });
+            this._game.setCollisionCallback(function () {
+                return _this._onCollisionCallback;
+            });
+            this._game.setTickCallback(function () {
+                return _this._onTick;
+            });
 
             (0, _jquery2.default)(window).on('resize', this._onWindowResize);
             window.jsCopter = this._game;
