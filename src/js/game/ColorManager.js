@@ -14,7 +14,7 @@ export default class ColorManager {
         this.hue += 0.618033988749895;
         this.hue %= 1;
 
-        return this.convertHSVToRGB(Math.floor(this.hue * 360), this.config.colorSaturation, this.config.colorValue);
+        return ColorManager.convertHSVToRGB(Math.floor(this.hue * 360), this.config.colorSaturation, this.config.colorValue);
     }
 
     reset() {

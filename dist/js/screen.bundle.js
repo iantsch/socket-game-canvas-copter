@@ -18478,7 +18478,7 @@ var PlayerManager = function () {
     }, {
         key: 'getColor',
         value: function getColor() {
-            return this.colorManager.convertRGBToHex(this.colorManager.getColor());
+            return _ColorManager2.default.convertRGBToHex(this.colorManager.getColor());
         }
     }, {
         key: 'navigatePlayer',
@@ -18685,7 +18685,7 @@ var ColorManager = function () {
             this.hue += 0.618033988749895;
             this.hue %= 1;
 
-            return this.convertHSVToRGB(Math.floor(this.hue * 360), this.config.colorSaturation, this.config.colorValue);
+            return ColorManager.convertHSVToRGB(Math.floor(this.hue * 360), this.config.colorSaturation, this.config.colorValue);
         }
     }, {
         key: 'reset',

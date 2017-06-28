@@ -51,7 +51,7 @@ export default class PlayerManager {
     }
 
     getColor() {
-        return this.colorManager.convertRGBToHex(this.colorManager.getColor());
+        return ColorManager.convertRGBToHex(this.colorManager.getColor());
     }
 
     navigatePlayer(playerID, direction) {
