@@ -31,13 +31,13 @@ module.exports = function (env) {
                     use: [{
                         loader: "css-loader",
                         options: {
-                            sourceMap: true,
+                            sourceMap: !(env && env.production),
                             outputStyle: 'compressed'
                         }
                     },{
                         loader: "sass-loader",
                         options: {
-                            sourceMap: true,
+                            sourceMap: !(env && env.production),
                             outputStyle: 'compressed'
                         }
                     }]
