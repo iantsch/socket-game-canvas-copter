@@ -127,7 +127,7 @@ export default class Screen {
             }, 10);
         });
 
-        this._api.on('copter-exit', function () {
+        this._api.on('copter-exit', () => {
             setTimeout(() => {
                 this._api.emit('screen-exit');
                 top.JSCONST.stopGame();

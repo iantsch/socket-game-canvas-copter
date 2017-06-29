@@ -70,7 +70,7 @@ export default class Controller {
         }).on('click', event => {
             event.preventDefault();
             if (confirm('really?')) {
-                this._api.emit('copter-exit', {});
+                this._api.emit('copter-exit');
             }
         });
         this.$.refreshColor.on('mousedown touchstart', event => {
