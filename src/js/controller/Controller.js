@@ -97,6 +97,7 @@ export default class Controller {
         });
 
         this._api.on('screen-exit', () => top.JSCONST.stopGame());
+        this._api.on('screen-disconnected', () => {top.JSCONST.stopGame();});
 
         this._api.on('copter-tick', data => {
             this.$.totalDistance.empty().html(Math.floor(data.totalDistance/10));

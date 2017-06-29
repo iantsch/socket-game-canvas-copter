@@ -56,7 +56,7 @@ export default class Screen {
             this.$.game.parent().toggleClass('screen__wrapper--sidebar');
         });
 
-        this._api.on('copter-player-join', (data, callback) => {
+        this._api.on('copter-player-join', (data, controllerId, callback) => {
             const playerId = this._game.addPlayer(new Date().getTime() + '');
             const player = {
                 id: playerId,
@@ -66,8 +66,8 @@ export default class Screen {
                 color: this._game.playerManager.getPlayerColor(playerId),
                 username: data.username
             };
-            this._players[data.controllerId] = player;
-            this._ranking.push(data.controllerId);
+            this._players[controllerId] = player;
+            this._ranking.push(controllerId);
 
             if (!this._game.gameData.running) {
                 this._game.startGame();
@@ -108,14 +108,14 @@ export default class Screen {
             this.$.scores.find('ul').append($li);
         });
 
-        this._api.on('controller-disconnected', data => {
-            const playerId = this._players[data.controllerId].id,
+        this._api.on('controller-disconnected', controllerId => {
+            const playerId = this._players[controllerId].id,
                 rankingIndex = this._ranking.indexOf(playerId);
             this._game.removePlayer(playerId);
             if (rankingIndex > -1) {
                 this._ranking.splice(rankingIndex, 1);
             }
-            delete this._players[data.controllerId];
+            delete this._players[controllerId];
             $(`li[data-playerId="${playerId}"]`).remove();
             if (Object.keys(this._players).length > 0) {
                 return;
@@ -144,7 +144,7 @@ export default class Screen {
             this._game.handleControl(playerId, false);
         });
 
-        this._api.on('copter-refresh-color', (data, callback) => {
+        this._api.on('copter-refresh-color', (data, controllerId, callback) => {
             const playerId = Number(data.playerId),
                 color = this._game.playerManager.getColor();
             this._game.playerManager.players[playerId].color = color;
