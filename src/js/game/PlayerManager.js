@@ -3,15 +3,14 @@ import ColorManager from './ColorManager';
 import Player from './Player';
 
 export default class PlayerManager {
-    constructor(config, drawContext) {
-        this.config = config;
-        this.drawContext = drawContext;
+    constructor(canvas) {
+        this.canvas = canvas;
         this.players = [];
         this.colorManager = new ColorManager();
     }
 
     addPlayer(name) {
-        const newPlayer = new Player(this.drawContext);
+        const newPlayer = new Player();
 
         newPlayer.name = name;
         newPlayer.color = this.getColor();
@@ -43,7 +42,7 @@ export default class PlayerManager {
     initializePlayers() {
         for (let player of this.players) {
             player.x = 0;
-            player.y = this.config.canvas.height/2;
+            player.y = this.canvas.height/2;
             player.rotation = 0;
             player.isPlaying = true;
             player.isAlive = true;

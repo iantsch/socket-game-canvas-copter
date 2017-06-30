@@ -38,6 +38,10 @@ export default class Controller {
             });
             this._player.id = data.playerId;
             this._emitDirection();
+            this._api.on(`copter-${data.playerId}-tick`, data => {
+                this.$.totalDistance.empty().html(Math.floor(data.totalDistance/10));
+                this.$.maxDistance.empty().html(Math.floor(data.maxDistance/10));
+            });
         });
 
         $(top.document).on('keydown', event => {
@@ -98,11 +102,6 @@ export default class Controller {
 
         this._api.on('screen-exit', () => top.JSCONST.stopGame());
         this._api.on('screen-disconnected', () => {top.JSCONST.stopGame();});
-
-        this._api.on('copter-tick', data => {
-            this.$.totalDistance.empty().html(Math.floor(data.totalDistance/10));
-            this.$.maxDistance.empty().html(Math.floor(data.maxDistance/10));
-        });
     };
     
     _emitUp() {

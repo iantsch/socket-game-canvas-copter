@@ -8,6 +8,7 @@ module.exports = function (env) {
         entry: {
             controller: ['./src/js/controller/index.js', './src/sass/controller.scss'],
             screen: ['./src/js/screen/index.js', './src/sass/screen.scss'],
+            spectator: ['./src/js/spectator/index.js', './src/sass/spectator.scss']
         },
         output: {
             filename: 'js/[name].bundle.js',

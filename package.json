@@ -1,6 +1,6 @@
 {
     "name": "socket-games-canvas-copter",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "socket games canvas copter implementation",
     "authors": [
         "Christian Tschugg <chris@mbt.wien>"

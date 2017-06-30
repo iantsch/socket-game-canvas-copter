@@ -2,13 +2,12 @@
 import {roundedRect} from './Game';
 
 export default class Player {
-    constructor(context) {
+    constructor() {
         this.physics = {
             terminalVelocity: 7,
             gravity: 1,
             friction: 0.9
         };
-        this.drawContext = context;
         this.mouseDown = false;
 
         this.x = 20;
@@ -31,10 +30,8 @@ export default class Player {
         this.wins = 0;
     }
 
-    draw(delta) {
-
-        const draw = this.drawContext;
-
+    update(delta, fps) {
+        delta = delta*fps / 3;
         if(this.mouseDown === true) {
             this.speed -= this.acceleration;
             if (this.speed < -this.topSpeed) this.speed = -this.topSpeed;
@@ -53,17 +50,6 @@ export default class Player {
         if (this.maxDistance < this.totalDistance) {
             this.maxDistance = this.totalDistance;
         }
-
-        draw.save();
-        draw.translate(this.x, this.y);
-        draw.rotate(this.rotation);
-
-        draw.beginPath();
-        roundedRect(draw, 0, 0, this.width, this.height, 10);
-        draw.fillStyle = this.color;
-        draw.fill();
-
-        draw.restore();
     }
 
     navigate(direction) {

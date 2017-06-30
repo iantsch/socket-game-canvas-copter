@@ -2,6 +2,7 @@ import $ from 'jquery';
 import qrcodejs from 'qrcodejs';
 
 import Game, {raf} from '../game/Game';
+import Painter from '../game/Painter';
 
 export default class Screen {
 
@@ -15,11 +16,14 @@ export default class Screen {
             start : Date.now(),
             duration : 250
         };
+
         this._resizeCanvas = this._resizeCanvas.bind(this);
-        this._onRoundCallback = this._onRoundCallback.bind(this);
-        this._onCollisionCallback = this._onCollisionCallback.bind(this);
-        this._onTick = this._onTick.bind(this);
         this._onWindowResize = this._onWindowResize.bind(this);
+
+        this._onRoundEnd = this._onRoundEnd.bind(this);
+        this._onCollision = this._onCollision.bind(this);
+        this._onTick = this._onTick.bind(this);
+        this._onDraw = this._onDraw.bind(this);
     }
 
     run() {
@@ -27,21 +31,20 @@ export default class Screen {
 
         this.$.game = $('#game-container');
         this.$.scores = $('.scores');
-        this._game = new Game('jsCopter', 'game-container', {
+        this._game = new Game('CanvasCopter', 'game-container', {
             canvas: {
                 width: this.$.game.outerWidth(),
                 height: this.$.game.outerHeight(),
-                refreshRate: 20,
-                topSpeed: 7
+                fps: 60
             }
         });
 
-        this._game.setRoundCallback( this._onRoundCallback );
-        this._game.setCollisionCallback( this._onCollisionCallback );
-        this._game.setTickCallback( this._onTick );
+        this._game.setCallback( this._onRoundEnd, 'round' );
+        this._game.setCallback( this._onCollision, 'collision' );
+        this._game.setCallback( this._onTick, 'tick' );
+        this._game.setCallback( this._onDraw, 'draw' );
 
         $(window).on('resize', this._onWindowResize);
-        window.jsCopter = this._game;
 
         $('.toggle-fullscreen').on('click', event => {
             event.preventDefault();
@@ -159,8 +162,8 @@ export default class Screen {
     _resizeCanvas() {
         this._onWindowResize();
         this._game.gameData.running = false;
-        this._game.createBG();
         this._game.createInitialWalls();
+        this._game.resetGameData();
         if (( Date.now() - this._resizing.start ) < this._resizing.duration) {
             raf(this._resizeCanvas);
         } else if (this._game.playerManager.numberOfPlayers() > 0) {
@@ -202,12 +205,12 @@ export default class Screen {
         }
     }
 
-    _onRoundCallback() {
+    _onRoundEnd() {
         this._updateStats();
         $('.scores__item--is-dead').removeClass('scores__item--is-dead');
     }
 
-    _onCollisionCallback() {
+    _onCollision() {
         for (let controllerId of Object.keys(this._players)) {
             const player = this._players[controllerId];
             if (this._game.playerManager.players[player.id].isAlive) {
@@ -228,10 +231,14 @@ export default class Screen {
     }
 
     _onTick(playerId) {
-        this._api.emit('copter-tick', {
+        console.log(`copter-${playerId}-tick`);
+        this._api.emit(`copter-${playerId}-tick`, {
             totalDistance : this._game.playerManager.players[playerId].totalDistance,
             maxDistance : this._game.playerManager.players[playerId].maxDistance
         });
+    }
+    _onDraw() {
+        this._api.emit('draw', {gameData: this._game.gameData});
     }
 
     static renderScreenId() {
