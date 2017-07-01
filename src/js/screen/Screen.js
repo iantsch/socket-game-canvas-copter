@@ -231,7 +231,6 @@ export default class Screen {
     }
 
     _onTick(playerId) {
-        console.log(`copter-${playerId}-tick`);
         this._api.emit(`copter-${playerId}-tick`, {
             totalDistance : this._game.playerManager.players[playerId].totalDistance,
             maxDistance : this._game.playerManager.players[playerId].maxDistance

@@ -28,6 +28,7 @@ export default class Player {
         this.isAlive = false;
         this.canceled = false;
         this.wins = 0;
+        this.copter = Math.floor(Math.random() * 3)+1; //Get random copter
     }
 
     update(delta, fps) {

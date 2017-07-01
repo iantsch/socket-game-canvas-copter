@@ -30,7 +30,11 @@ export default class Game {
                 height: 300,
                 fps: 60,
                 fill: '#000000',
-                difficulty: 1.67
+                difficulty: 1.67,
+                old: {
+                    width: 500,
+                    height: 300
+                }
             },
             walls: {
                 counter: 0,
@@ -38,7 +42,7 @@ export default class Game {
                 fill: '#dddddd',
                 width: 20,
                 height: {
-                    start: 60,
+                    start: 150,
                     max: 700,
                     interval: 5,
                     step: 10,
@@ -71,8 +75,6 @@ export default class Game {
                 this.gameData[optionType][subOption] = gameData[optionType][subOption];
             }
         }
-        
-        this.calculateCanvasRelatedValues();
 
         this.playerManager = new PlayerManager(this.gameData.canvas);
         
@@ -93,7 +95,15 @@ export default class Game {
     }
     
     calculateCanvasRelatedValues() {
-        
+        const delta = {
+            width: 1/this.gameData.canvas.old.width * this.gameData.canvas.width,
+            height: 1/this.gameData.canvas.old.height * this.gameData.canvas.height
+        };
+        this.gameData.walls.width *= delta.width;
+        this.gameData.walls.height.start *= delta.height;
+        this.gameData.walls.height.max *= delta.height;
+        this.gameData.walls.height.step *= delta.height;
+        this.gameData.obstacles.width *= delta.width;
     }
 
     resetGameData() {
@@ -113,6 +123,7 @@ export default class Game {
         this.gameData.delta.time = 0;
         this.gameData.delta.x = 0;
         this.gameData.lastUpdate = Date.now();
+        this.gameData.canvas.difficulty = 1.67;
         this.createInitialWalls();
         Painter.draw(this.gameData);
     }
@@ -315,6 +326,8 @@ export default class Game {
     }
 
     updateCanvas (settings) {
+        this.gameData.canvas.old.width = this.gameData.canvas.width;
+        this.gameData.canvas.old.height = this.gameData.canvas.height;
         this.gameData.canvas.width = this.gameData.canvas.node.width = settings.width;
         this.gameData.canvas.height = this.gameData.canvas.node.height = settings.height;
         this.calculateCanvasRelatedValues();
