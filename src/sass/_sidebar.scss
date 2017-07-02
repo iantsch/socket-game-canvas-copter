@@ -1,0 +1,14 @@
+.screen__sidebar {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: $sidebar;
+    bottom: 0;
+    transition: transform .25s linear;
+    background: $background-color-sidebar;
+}
+.screen--sidebar .screen__sidebar {
+    transform: translateX(-$sidebar);
+}

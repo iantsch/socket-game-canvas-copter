@@ -1,0 +1,80 @@
+.nav__item {
+    position: fixed;
+    width: $icon;
+    height: $icon;
+    padding: $fixed-gutter;
+    display: block;
+    top: $fixed-gutter;
+    right: $fixed-gutter;
+    background-color: $background-color-toggle;
+    color: $color-toggle;
+    transition: all .25s linear;
+    cursor: pointer;
+    opacity: .8;
+    z-index: 10;
+}
+
+.screen--sidebar .toggle-sidebar,
+.screen--fullscreen .toggle-fullscreen,
+.screen--qrcode .toggle-qrcode,
+.nav__item:hover {
+    background-color: $background-color-toggle-hover;
+    color: $color-toggle-hover;
+    opacity: 1;
+}
+.screen--fullscreen .toggle-fullscreen:hover,
+.screen--sidebar .toggle-sidebar:hover,
+.screen--qrcode .toggle-qrcode:hover {
+    background-color: $background-color-toggled-hover;
+    color: $color-toggled-hover;
+}
+
+.toggle-sidebar {
+    top: calc(#{$icon + $fixed-gutter*2});
+}
+.toggle-qrcode {
+    top: calc(#{$icon*2 + $fixed-gutter*3});
+}
+
+.screen__qrcode {
+    width: $qrcode+$fixed-gutter*2;
+    padding: $fixed-gutter;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    transition: all .25s ease-in-out;
+}
+
+.screen--qrcode .screen__qrcode {
+    transform: translate(-100%, -50%);
+}
+
+.screen--sidebar .screen__qrcode {
+    top: 100%;
+    transform: translateY(-100%);
+}
+
+.screen--sidebar.screen--qrcode .screen__qrcode {
+    transform: translate(-100%, -100%);
+}
+
+.link {
+    font-size: $qrcode-font-size;
+    padding: $fixed-gutter 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: $color-sidebar;
+    text-decoration: none;
+    transition: color .25s ease-in-out;
+    &:hover {
+        color: $color-toggle-hover
+    }
+}
+.link__svg {
+    width: $icon - $fixed-gutter*2;
+    height: $icon - $fixed-gutter*2;
+    margin-right: $fixed-gutter;
+}

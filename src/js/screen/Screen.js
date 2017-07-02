@@ -50,13 +50,21 @@ export default class Screen {
             event.preventDefault();
             this._resizing.start = Date.now();
             raf(this._resizeCanvas);
-            this.$.game.closest('.screen__wrapper')
-                .toggleClass('screen__wrapper--fullscreen');
+            this._api.emit('toggle-fullscreen', {});
+            this.$.game.closest('.screen')
+                .toggleClass('screen--fullscreen');
         });
 
         $('.toggle-sidebar').on('click', event => {
             event.preventDefault();
-            this.$.game.parent().toggleClass('screen__wrapper--sidebar');
+            this._api.emit('toggle-sidebar', {});
+            this.$.game.closest('.screen').toggleClass('screen--sidebar');
+        });
+
+        $('.toggle-qrcode').on('click', event => {
+            event.preventDefault();
+            this._api.emit('toggle-qrcode', {});
+            this.$.game.closest('.screen').toggleClass('screen--qrcode');
         });
 
         this._api.on('copter-player-join', (data, controllerId, callback) => {
@@ -74,17 +82,17 @@ export default class Screen {
 
             if (!this._game.gameData.running) {
                 this._game.startGame();
-                this.$.game.find('h2').remove();
+                this.$.game.find('.screen__title').remove();
             }
             callback({
                 playerId: playerId,
                 color: player.color
             });
             const $li = $(
-                `<li data-playerId="${playerId}" class="scores__item">
-                    <span class="playerColor" style="background-color: ${player.color}"></span>
+                `<li data-playerId="${playerId}" class="scores__item player">
+                    <span class="player__color" style="background-color: ${player.color}"></span>
                     ${player.username} :
-                    <svg class="score__svg svg" viewBox="52.405 123.305 490.472 595.279">
+                    <svg class="player__svg player__svg--score svg" viewBox="52.405 123.305 490.472 595.279">
                         <path d="M406.738,382.471c48.075-15.814,136.139-79.187,136.139-163.505c0-41.272-35.282-74.742-77.019-71.396
                             c0.1-2.823,0.25-5.622,0.292-8.452c0-4.186-1.582-8.186-4.558-11.161c-2.976-3.071-6.976-4.651-11.161-4.651H144.885
                             c-4.186,0-8.186,1.58-11.161,4.651c-2.976,2.976-4.558,6.976-4.558,11.161c0.041,2.791,0.11,5.599,0.195,8.453
@@ -99,16 +107,17 @@ export default class Screen {
                             c2.031-0.247,4.039-0.388,6-0.388c29.294,0,53.128,23.834,53.128,53.128c0,64.838-61.153,115.46-103.26,137.102
                             C444.892,306.135,459.973,243.882,464.568,175.855z"/>
                     </svg>
-                    <span class="score">${ player.score}</span>
-                    <svg class="distance__svg svg" viewBox="0 0 423.085 553.218">
+                    <span class="player__score">${ player.score}</span>
+                    <svg class="player__svg player__svg--distance svg" viewBox="0 0 423.085 553.218">
                         <path d="M377.477,342.563c29.865-37.761,45.608-83.035,45.608-131.025C423.085,94.898,328.188,0,211.543,0S0,94.898,0,211.538
                             c0,47.99,15.743,93.265,45.528,130.928l166.01,210.752L377.477,342.563z M148.478,211.538c0-34.773,28.288-63.061,63.061-63.061
                             c34.773,0,63.061,28.292,63.061,63.061c0,34.773-28.287,63.062-63.061,63.062C176.77,274.6,148.478,246.312,148.478,211.538z"/>
                     </svg>
-                    <span class="maxDistance">${player.maxDistance}</span>
+                    <span class="player__max-distance">${player.maxDistance}</span>
                 </li>`
             );
-            this.$.scores.find('ul').append($li);
+            this.$.scores.find('.scores__list').append($li);
+            this._api.emit('update-scores', this.$.scores.html());
         });
 
         this._api.on('controller-disconnected', controllerId => {
@@ -121,6 +130,7 @@ export default class Screen {
             delete this._players[controllerId];
             $(`li[data-playerId="${playerId}"]`).remove();
             if (Object.keys(this._players).length > 0) {
+                this._api.emit('update-scores', this.$.scores.html());
                 return;
             }
             this._game.endGame();
@@ -154,7 +164,8 @@ export default class Screen {
             callback({
                 color: color
             });
-            $(`[data-playerId="${playerId}"] > span.playerColor`).css('backgroundColor', color);
+            $(`[data-playerId="${playerId}"] > .player__color`).css('backgroundColor', color);
+            this._api.emit('update-scores', this.$.scores.html());
         });
 
     };
@@ -196,10 +207,10 @@ export default class Screen {
                 const player = this._players[controllerId];
                 const $li = $(`[data-playerId="${player.id}"]`);
                 if (!this._game.playerManager.players[player.id].isAlive) {
-                    $li.addClass('scores__item--is-dead');
+                    $li.addClass('player--is-dead');
                 }
-                $li.find('.score').empty().text(player.score);
-                $li.find('.maxDistance').empty().text(player.maxDistance);
+                $li.find('.player__score').empty().text(player.score);
+                $li.find('.player__max-distance').empty().text(player.maxDistance);
                 $li.detach().appendTo(this.$.scores.find('ul'));
             }
         }
@@ -207,7 +218,8 @@ export default class Screen {
 
     _onRoundEnd() {
         this._updateStats();
-        $('.scores__item--is-dead').removeClass('scores__item--is-dead');
+        $('.player--is-dead').removeClass('player--is-dead');
+        this._api.emit('update-scores', this.$.scores.html());
     }
 
     _onCollision() {
@@ -221,6 +233,7 @@ export default class Screen {
             }
         }
         this._updateStats();
+        this._api.emit('update-scores', this.$.scores.html());
     }
 
     _onWindowResize() {
@@ -228,6 +241,7 @@ export default class Screen {
             width: this.$.game.outerWidth(),
             height : this.$.game.outerHeight()
         });
+        this._api.emit('draw', {gameData: this._game.gameData});
     }
 
     _onTick(playerId) {
@@ -242,10 +256,17 @@ export default class Screen {
 
     static renderScreenId() {
         // ATTENTION: this method has a duplicate in gamecenter MainView
-        let $screenId = $('.controller-link');
-        let url = top.JSCONST.gameCenterControllerUrl;
-        $screenId.html(`<a href="${url}" target="_blank">${url}</a>`);
-        new qrcodejs.QRCode($('.qrcode')[0], url);
+        const $controller= $('.link--controller');
+        const $spectator = $('.link--spectator');
+        const controllerUrl = top.JSCONST.gameCenterControllerUrl;
+        const spectatorUrl = top.JSCONST.gameCenterSpectatorUrl;
+        $controller.attr('href', controllerUrl).find('.link__label').empty().text(controllerUrl);
+        $spectator.attr('href', spectatorUrl).find('.link__label').empty().text(spectatorUrl);
+        new qrcodejs.QRCode($('.qrcode')[0], {
+            width: 230,
+            height: 230,
+            text: controllerUrl
+        });
     }
 
 };

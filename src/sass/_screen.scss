@@ -1,0 +1,44 @@
+.screen {
+    background-color: $background-color-body;
+    margin: 0;
+    padding: 0;
+}
+
+.screen__wrapper {
+    position: relative;
+    top: 6vw;
+    left: 6vw;
+    width: 88vw;
+    max-width: calc(94vw - #{$icon + $fixed-gutter*2});
+    height: calc(100vh - 12vw);
+    background: $background-color-main;
+    color: $color-main;
+    overflow: hidden;
+    transition: all .25s ease-in-out;
+}
+
+.screen--fullscreen .screen__wrapper{
+    top: 0;
+    left: 0;
+    width: calc(100vw - #{$icon + $fixed-gutter*2});
+    max-width: calc(100vw - #{$icon + $fixed-gutter*2});
+    height: 100vh;
+}
+
+
+.screen__title {
+    position: absolute;
+    top: 5vh;
+    left: 10vh;
+    color: $color-main;
+}
+
+.screen__game {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: $background-color-main;
+    transition: all .25s ease-in-out;
+}

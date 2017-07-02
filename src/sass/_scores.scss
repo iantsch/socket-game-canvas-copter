@@ -1,0 +1,47 @@
+.scores {
+    flex: 1;
+    padding: $fixed-gutter;
+    color: $color-sidebar
+}
+.scores__list {
+    list-style: none;
+    padding: 0;
+    font-size: $scores-font-size;
+    font-weight: 700;
+}
+.player {
+    position: relative;
+    transition: opacity .25s ease-in-out;
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: $color-sidebar;
+        top: 50%;
+        margin-top: -1px;
+        pointer-events: none;
+        opacity: 0;
+    }
+}
+
+.player--is-dead {
+    opacity: .5;
+}
+.player--is-dead:after {
+    opacity: 1;
+}
+
+.player__svg,
+.player__color {
+    display: inline-block;
+    width: $scores-font-size*.75;
+    height: $scores-font-size*.75;
+    &.svg {
+        margin: 0 5px;
+    }
+}
+
+.player__total-distance {}
+.player__max-distance {}

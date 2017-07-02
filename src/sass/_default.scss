@@ -1,0 +1,18 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.svg {
+    display: block;
+    height: 100%;
+    width: 100%;
+    fill: currentColor;
+}
+.svg path {
+    fill: currentColor;
+}
