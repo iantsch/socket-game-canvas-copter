@@ -12,6 +12,7 @@ import PlayerManager from './PlayerManager';
 import Painter from '../game/Painter';
 
 export const raf = window.requestAnimationFrame;
+export const caf = window.cancelAnimationFrame;
 
 export default class Game {
 
@@ -30,7 +31,7 @@ export default class Game {
                 height: 300,
                 fps: 60,
                 fill: '#000000',
-                difficulty: 1.67,
+                difficulty: 2,
                 old: {
                     width: 500,
                     height: 300
@@ -42,8 +43,8 @@ export default class Game {
                 fill: '#dddddd',
                 width: 20,
                 height: {
-                    start: 150,
-                    max: 700,
+                    start: 50,
+                    max: 150,
                     interval: 5,
                     step: 10,
                     current: 0
@@ -53,10 +54,10 @@ export default class Game {
             },
             obstacles: {
                 counter: 0,
-                separation: 250,
+                separation: 80,
                 fill: '#dddddd',
                 width: 20,
-                height: 150,
+                height: 50,
                 current: []
             },
             players: [],
@@ -80,6 +81,7 @@ export default class Game {
         
         this.gameData.canvas.node = this.createCanvas(canvasId);
         this.gameData.context = this.gameData.canvas.node.getContext('2d');
+        this.calculateCanvasRelatedValues();
         this.resetGameData();
         
         this.update = this.update.bind(this);
@@ -99,11 +101,11 @@ export default class Game {
             width: 1/this.gameData.canvas.old.width * this.gameData.canvas.width,
             height: 1/this.gameData.canvas.old.height * this.gameData.canvas.height
         };
-        this.gameData.walls.width *= delta.width;
         this.gameData.walls.height.start *= delta.height;
         this.gameData.walls.height.max *= delta.height;
         this.gameData.walls.height.step *= delta.height;
-        this.gameData.obstacles.width *= delta.width;
+        this.gameData.obstacles.height *= delta.height;
+        this.gameData.obstacles.separation *= delta.width;
     }
 
     resetGameData() {
