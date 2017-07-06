@@ -3170,9 +3170,9 @@ sntp@1.x.x:
   dependencies:
     hoek "2.x.x"
 
-"socket-games-api@git+https://bitbucket.org/tschagerl/socket-games-api.git#v0.2.0":
-  version "0.2.0"
-  resolved "git+https://bitbucket.org/tschagerl/socket-games-api.git#c54e2035703117743552444949e8b9f80f569b00"
+"socket-games-api@git+https://bitbucket.org/tschagerl/socket-games-api.git#v0.3.0":
+  version "0.3.0"
+  resolved "git+https://bitbucket.org/tschagerl/socket-games-api.git#201bbab2cf10b4a132c3717ce444161e4538871c"
   dependencies:
     socket.io-client "^2.0.3"
 
